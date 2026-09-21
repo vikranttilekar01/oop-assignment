@@ -1,0 +1,109 @@
+package oop;
+
+import java.util.Scanner;
+
+class Publication {
+    String title;
+    double price;
+    int copies;
+
+    Publication(String title, double price, int copies) {
+        this.title = title;
+        this.price = price;
+        this.copies = copies;
+    }
+
+    double saleCopy() {
+        return price * copies;
+    }
+
+    void display() {
+        System.out.println("Title: " + title);
+        System.out.println("Price: " + price);
+        System.out.println("Copies Sold: " + copies);
+    }
+}
+
+class Book extends Publication {
+    String author;
+
+    Book(String title, double price, int copies, String author) {
+        super(title, price, copies);
+        this.author = author;
+    }
+
+    void orderCopies(int quantity) {
+        copies = copies + quantity;
+        System.out.println(quantity + " copies ordered successfully.");
+    }
+
+    void displayBook() {
+        display();
+        System.out.println("Author: " + author);
+    }
+}
+
+class Magazine extends Publication {
+    int orderQty;
+    String currentIssue;
+
+    Magazine(String title, double price, int copies,
+             int orderQty, String currentIssue) {
+        super(title, price, copies);
+        this.orderQty = orderQty;
+        this.currentIssue = currentIssue;
+    }
+
+    void receiveIssue(String issue) {
+        currentIssue = issue;
+        System.out.println("New issue received: " + currentIssue);
+    }
+
+    void displayMagazine() {
+        display();
+        System.out.println("Order Quantity: " + orderQty);
+        System.out.println("Current Issue: " + currentIssue);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        Book book = new Book(
+            "Java Programming",
+            500,
+            10,
+            "Herbert Schildt"
+        );
+
+        Magazine magazine = new Magazine(
+            "Technology Today",
+            100,
+            20,
+            30,
+            "August 2026"
+        );
+
+        System.out.println("BOOK DETAILS");
+        book.displayBook();
+
+        System.out.print("\nEnter number of book copies to order: ");
+        int quantity = sc.nextInt();
+        book.orderCopies(quantity);
+
+        System.out.println("\nUpdated Book Details:");
+        book.displayBook();
+
+        System.out.println("\nMAGAZINE DETAILS");
+        magazine.displayMagazine();
+
+        double totalSales = book.saleCopy() + magazine.saleCopy();
+
+        System.out.println("\nBook Sales: Rs. " + book.saleCopy());
+        System.out.println("Magazine Sales: Rs. " + magazine.saleCopy());
+        System.out.println("Total Publication Sales: Rs. " + totalSales);
+
+        sc.close();
+    }
+}
